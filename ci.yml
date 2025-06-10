@@ -1,0 +1,27 @@
+schemaVersion: v0.2
+prepare:
+  steps:
+    - command: nix-env -iA nixpkgs.socat
+    - command: npm install serve
+test:
+  steps: []
+run:
+  serve:
+    steps:
+      - name: proxy
+        command: echo 'socat TCP-LISTEN:3000,fork TCP:localhost:4443 &'
+      - name: webserver
+        command: npx serve -l 4443
+    plan: 101
+    replicas: 1
+    isPublic: true
+    network:
+      ports:
+        - port: 3000
+          isPublic: false
+        - port: 4443
+          isPublic: true
+      paths:
+        - port: 4443
+          path: /
+          stripPath: false
