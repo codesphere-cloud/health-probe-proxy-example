@@ -1,14 +1,15 @@
 schemaVersion: v0.2
 prepare:
   steps:
-    - command: nix-env -iA nixpkgs.socat
+    - name: Install socat (alternatively)
+      command: echo 'nix-env -iA nixpkgs.socat'
     - command: npm install serve
 test:
   steps: []
 run:
   serve:
     steps:
-      - name: proxy with socat
+      - name: proxy with socat (alternatively)
         command: echo 'socat TCP-LISTEN:3000,fork TCP:localhost:4443 &'
       - name: proxy with python
         command: python3 forwarder.py 3000 localhost 4443 &
