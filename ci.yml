@@ -9,10 +9,10 @@ run:
   serve:
     steps:
       - name: proxy
-        command: echo 'socat TCP-LISTEN:3000,fork TCP:localhost:4443 &'
+        command: socat TCP-LISTEN:3000,fork TCP:localhost:4443 &
       - name: webserver
         command: npx serve -l 4443
-    plan: 101
+    plan: 8
     replicas: 1
     isPublic: true
     network:
