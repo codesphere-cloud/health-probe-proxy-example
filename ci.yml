@@ -8,8 +8,10 @@ test:
 run:
   serve:
     steps:
-      - name: proxy
-        command: socat TCP-LISTEN:3000,fork TCP:localhost:4443 &
+      - name: proxy with socat
+        command: echo 'socat TCP-LISTEN:3000,fork TCP:localhost:4443 &'
+      - name: proxy with python
+        command: python3 forwarder.py 3000 localhost 4443 &
       - name: webserver
         command: npx serve -l 4443
     plan: 8
